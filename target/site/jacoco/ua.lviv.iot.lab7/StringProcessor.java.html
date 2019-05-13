@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="uk"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">home</a> &gt; <a href="index.source.html" class="el_package">ua.lviv.iot.lab7</a> &gt; <span class="el_source">StringProcessor.java</span></div><h1>StringProcessor.java</h1><pre class="source lang-java linenums">package ua.lviv.iot.lab7;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+
+public class StringProcessor {
+
+    private String userText;
+
+<span class="nc" id="L17">    private List&lt;String&gt; resultsList = new ArrayList&lt;String&gt;();</span>
+
+<span class="nc" id="L19">    public StringProcessor() {</span>
+<span class="nc" id="L20">    }</span>
+
+<span class="nc" id="L22">    public StringProcessor(final String userText) {</span>
+<span class="nc" id="L23">        this.setUserText(userText);</span>
+<span class="nc" id="L24">    }</span>
+
+    public String getUserText() {
+<span class="nc" id="L27">        return userText;</span>
+    }
+
+    public final void setUserText(final String userText) {
+<span class="nc" id="L31">        this.userText = userText;</span>
+<span class="nc" id="L32">    }</span>
+
+    public final List&lt;String&gt; getResultsList() {
+<span class="nc" id="L35">        return resultsList;</span>
+    }
+
+    public final void findAndReverseMiddleWordsInQuestionSentences() {
+
+<span class="nc" id="L40">        Pattern questionSentencePattern = Pattern.compile(&quot;-(\\d+)?+(\\d+)?&quot;);</span>
+<span class="nc" id="L41">        Pattern wordPattern = Pattern.compile(&quot;\\b\\d+\\b&quot;);</span>
+
+<span class="nc" id="L43">        Matcher questionSentenceMatcher = questionSentencePattern.matcher(this.getUserText());</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        while (questionSentenceMatcher.find()) {</span>
+
+<span class="nc" id="L47">            String questionString = questionSentenceMatcher.group();</span>
+
+<span class="nc" id="L49">            Matcher wordMatcher = wordPattern.matcher(questionString);</span>
+
+<span class="nc" id="L51">            int wordNumber = 0;</span>
+
+<span class="nc" id="L53">            ArrayList&lt;String&gt; words = new ArrayList&lt;String&gt;();</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            while (wordMatcher.find()) {</span>
+
+<span class="nc" id="L57">                words.add(wordMatcher.group());</span>
+<span class="nc" id="L58">                wordNumber++;</span>
+            }
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            if (wordNumber != 0) {</span>
+
+<span class="nc" id="L63">                StringBuffer wordToReverse = new StringBuffer(words.get(wordNumber / 2));</span>
+<span class="nc" id="L64">                String reversedString = wordToReverse.reverse().toString();</span>
+<span class="nc" id="L65">                this.resultsList.add(reversedString);</span>
+            }
+<span class="nc" id="L67">        }</span>
+<span class="nc" id="L68">    }</span>
+
+    public static String readInputText() throws IOException {
+
+<span class="nc" id="L72">        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span>
+<span class="nc" id="L73">        System.out.print(&quot;Enter the text you want to filter : &quot;);</span>
+<span class="nc" id="L74">        String userText = br.readLine();</span>
+<span class="nc" id="L75">        br.close();</span>
+<span class="nc" id="L76">        return userText;</span>
+    }
+
+    public void showResults() {
+
+<span class="nc" id="L81">        System.out.println(</span>
+                &quot;\n------------------------------------------------------------------------------------------------\n&quot;);
+<span class="nc" id="L83">        System.out.println(&quot;\tText processing results:&quot;);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (this.resultsList.size() != 0) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for (String result : this.resultsList) {</span>
+<span class="nc" id="L86">                System.out.println(&quot; &quot; + result);</span>
+<span class="nc" id="L87">            }</span>
+        } else {
+<span class="nc" id="L89">            System.out.println(&quot;Sorry, but there are no results for you.&quot;);</span>
+        }
+        
+        
+<span class="nc" id="L93">    }</span>
+    public static void main(String[] args) throws IOException {
+
+<span class="nc" id="L96">        String userInput = StringProcessor.readInputText();</span>
+<span class="nc" id="L97">        StringProcessor stringProcessor = new StringProcessor(userInput);</span>
+<span class="nc" id="L98">        stringProcessor.findAndReverseMiddleWordsInQuestionSentences();</span>
+<span class="nc" id="L99">        stringProcessor.showResults();</span>
+<span class="nc" id="L100">    }</span>
+
+}
+
+
+    
+   
+
+       
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
